@@ -23,7 +23,6 @@ async function run() {
 
     const recipesCollection = client.db("recipesDB").collection('recipes')
 
-
     // Post a recipe to the DB
     app.post('/recipes', async (req, res) => {
         const recipe = req.body
