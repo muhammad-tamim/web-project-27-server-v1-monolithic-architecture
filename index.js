@@ -32,8 +32,16 @@ async function run() {
 
     // GET all recipes from the DB
     app.get('/recipes', async (req, res) => {
-        const recipes = await recipesCollection.find({}).toArray();
-        res.send(recipes);
+        const result = await recipesCollection.find({}).toArray();
+        res.send(result);
+    });
+
+    // GET single recipes from the DB
+    app.get('/recipe-details/:id', async (req, res) => {
+        const id = req.params.id
+        const filter = { _id: new ObjectId(id) }
+        const result = await recipesCollection.findOne(filter);
+        res.send(result);
     });
 
     // Send a ping to confirm a successful connection
