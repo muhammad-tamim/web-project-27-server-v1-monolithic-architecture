@@ -31,6 +31,12 @@ async function run() {
         res.send(result)
     })
 
+    // GET all recipes from the DB
+    app.get('/recipes', async (req, res) => {
+        const recipes = await recipesCollection.find({}).toArray();
+        res.send(recipes);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
