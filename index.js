@@ -44,6 +44,14 @@ async function run() {
         res.send(result);
     });
 
+    // Update like count of a recipe in the DB
+    app.patch('/recipe/like/:id', async (req, res) => {
+        const id = req.params.id
+        const filter = { _id: new ObjectId(id) }
+        const result = await recipesCollection.updateOne(filter, { $inc: { likes: 1 } })
+        res.send(result)
+    })
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
