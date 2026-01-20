@@ -83,6 +83,18 @@ async function run() {
         res.send(result)
     })
 
+    // Update a recipe from the db
+    app.patch('/recipe/:id', async (req, res) => {
+        const id = req.params.id
+        const filter = { _id: new ObjectId(id) }
+        const updatedData = req.body
+        const updateDoc = {
+            $set: updatedData
+        }
+
+        const result = await recipesCollection.updateOne(filter, updateDoc)
+        res.send(result)
+    })
 
     // Delete a recipe from the DB
     app.delete('/recipe/:id', async (req, res) => {
