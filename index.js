@@ -58,6 +58,14 @@ async function run() {
         res.send(result);
     });
 
+    // GET cuisine recipes from the DB
+    app.get('/recipe-cuisine/:cuisine', async (req, res) => {
+        const cuisine = req.params.cuisine
+        const filter = { cuisine }
+        const result = await recipesCollection.find(filter).toArray();
+        res.send(result);
+    });
+
 
     // GET single recipes from the DB
     app.get('/recipe-details/:id', async (req, res) => {
