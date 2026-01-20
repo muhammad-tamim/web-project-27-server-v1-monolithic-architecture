@@ -42,6 +42,15 @@ async function run() {
         res.send(result)
     })
 
+    // GET my recipes from the DB
+    app.get('/recipes/:email', async (req, res) => {
+        const email = req.params.email
+        const filter = { email }
+        const result = await recipesCollection.find(filter).toArray();
+        res.send(result);
+    });
+
+
     // GET single recipes from the DB
     app.get('/recipe-details/:id', async (req, res) => {
         const id = req.params.id
