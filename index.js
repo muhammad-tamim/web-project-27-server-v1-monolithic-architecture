@@ -50,6 +50,14 @@ async function run() {
         res.send(result);
     });
 
+    // GET categories recipes from the DB
+    app.get('/recipe-category/:category', async (req, res) => {
+        const category = req.params.category
+        const filter = { category }
+        const result = await recipesCollection.find(filter).toArray();
+        res.send(result);
+    });
+
 
     // GET single recipes from the DB
     app.get('/recipe-details/:id', async (req, res) => {
