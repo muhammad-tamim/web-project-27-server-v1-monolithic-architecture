@@ -3,12 +3,12 @@
 This is the backend server for a Thatix (Recipe Sharing Platform) where users can create, manage, discover, and like recipes. The backend provides RESTful APIs for recipe management, filtering, and user-based operations.
 
 ## Live Links: 
-- client: https://web-project-27-client-v2-ts.netlify.app/
+- client: https://web-project-27-client.netlify.app/
 - server: https://web-project-27-server-v1-monolithic.onrender.com
 
 ## Repository Links:
-- client: https://github.com/muhammad-tamim/web-project-27-client-v2-ts
-- server: https://github.com/muhammad-tamim/web-project-27-server-v1-monolithic-architecture
+- client: https://github.com/muhammad-tamim/web-project-27-client
+- server: https://github.com/muhammad-tamim/web-project-27-server
 
 ## Tech Stack:
 - Node.js
