@@ -1,6 +1,34 @@
-### What i learned: 
+# Project: Thatix (Recipe Sharing Platform) 
+ 
+This is the backend server for a Thatix (Recipe Sharing Platform) where users can create, manage, discover, and like recipes. The backend provides RESTful APIs for recipe management, filtering, and user-based operations.
 
-1. How to insert all data into the server site using testing purpose. 
+## Live Links: 
+- client: https://web-project-27-client-v2-ts.netlify.app/
+- server: https://web-project-27-server-v1-monolithic.onrender.com
+
+## Repository Links:
+- client: https://github.com/muhammad-tamim/web-project-27-client-v2-ts
+- server: https://github.com/muhammad-tamim/web-project-27-server-v1-monolithic-architecture
+
+## Tech Stack:
+- Node.js
+- Express
+- MongoDB
+- dotenv
+- cors
+  
+## Features: 
+- Create, update, and delete recipes
+- View all recipes
+- Like recipes
+- Get top 6 most liked recipes
+- Filter recipes by category
+- Filter recipes by cuisine
+- View recipes created by a specific user
+
+## What i learn:
+
+1. How to seed initial data into MongoDB for testing:
 
 ```js
 .....
@@ -256,4 +284,358 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 })
+```
+
+2. Deploying a Node.js server on Render
+
+## Challenges i faced: 
+
+1. I faced lots of error while deploying the express server on vercel, so then i moved to render
+
+## Project Architecture:
+
+This backend follows a monolithic architecture, where all server logic is written inside a single file:
+
+```
+index.js
+```
+
+### Why I Choose Monolithic?
+
+- Simple and beginner-friendly structure
+- Easier debugging and learning
+- Suitable for small projects
+
+### Database Schema (Recipe)
+
+```js
+{
+"_id": "ObjectId",
+"title": "string",
+"image": "string",
+"ingredients": "string",
+"instructions": "string",
+"category": "string",
+"cuisine": "string",
+"difficulty": "string",
+"prepTime": "number",
+"cookTime": "number",
+"totalTime": "number",
+"likes": "number",
+"email": "string"
+}
+```
+
+Note: Some API responses may use older field names (likeCount, imageUrl, categories, cuisineType). These evolved during development.
+
+## API Documentation:
+
+BASE URL: 
+
+```
+https://web-project-27-server-v1-monolithic.onrender.com
+```
+
+1. Create a Recipe: 
+
+```
+POST /recipes
+```
+Request Body: 
+
+```json
+{
+  "imageUrl": "string",
+  "title": "string",
+  "ingredients": "string",
+  "instructions": "string",
+  "cuisineType": ["string"],
+  "preparationTime": 30,
+  "categories": ["string"],
+  "likeCount": 0,
+  "email": "string"
+}
+```
+
+Response (201 Created):
+
+```json
+{
+  "acknowledged": true,
+  "insertedId": "656f0b2a1e23bc..."
+}
+```
+
+2. Get All Recipes:
+
+```
+GET /recipes
+```
+
+Response (200 OK):
+
+```json
+[
+  {
+    "_id": "656f0b2a1e23bc...",
+    "title": "Spaghetti Carbonara",
+    "ingredients": "Pasta, Eggs",
+    "instructions": "...",
+    "cuisineType": ["italian"],
+    "categories": ["Dinner"],
+    "likeCount": 10,
+    "imageUrl": "...",
+    "preparationTime": 25,
+    "email": "user@example.com"
+  }
+]
+```
+3. Get Top 6 Liked Recipes: 
+
+```
+GET /top-recipes
+```
+
+Response (200 OK):
+
+```json
+[
+  {
+    "_id": "656f0b2a1e23bc...",
+    "title": "Most Liked Recipe",
+    "likeCount": 50,
+    "imageUrl": "..."
+  }
+]
+```
+
+4. Get Recipes by User: 
+
+```
+GET /recipes/:email
+```
+
+Parameters:
+
+```
+email
+```
+
+Response (200 OK):
+
+```json
+[
+  {
+    "_id": "656f0b2a1e23bc...",
+    "title": "User's Recipe",
+    "email": "user@example.com",
+    "ingredients": "...",
+    "instructions": "...",
+    "categories": ["Lunch"]
+  }
+]
+```
+
+
+5. Get Recipes by Category
+
+```
+GET /recipe-category/:category
+```
+
+Parameters:
+
+```
+category
+```
+
+Response (200 OK):
+
+```json
+[
+  {
+    "_id": "656f0b2a1e23bc...",
+    "title": "Recipe Title",
+    "categories": ["Dinner"]
+  }
+]
+```
+
+
+6. Get Recipes by Cuisine
+   
+```
+GET /recipe-cuisine/:cuisine
+```
+
+Parameters:
+
+```
+cuisine
+```
+
+Response (200 OK):
+
+```json
+[
+  {
+    "_id": "656f0b2a1e23bc...",
+    "title": "Recipe Title",
+    "cuisineType": ["indian"]
+  }
+]
+```
+
+7. Get Single Recipe
+
+```
+GET /recipe-details/:id
+```
+
+Parameters:
+
+```
+id
+```
+
+Response (200 OK):
+
+```json
+{
+  "_id": "656f0b2a1e23bc...",
+  "title": "Spaghetti Carbonara",
+  "ingredients": "Pasta, Eggs",
+  "instructions": "...",
+  "cuisineType": ["italian"],
+  "categories": ["Dinner"],
+  "likeCount": 10
+}
+```
+
+8. Update Recipe
+
+```
+PATCH /recipe/:id
+```
+
+Parameters:
+
+```
+id
+```
+
+Request Body: (partial update allowed, excluding likeCount)
+
+```json
+{
+  "title": "Updated Recipe Title",
+  "ingredients": "Updated Ingredients"
+}
+```
+
+Response (200 OK):
+
+```json
+{
+  "acknowledged": true,
+  "modifiedCount": 1
+}
+```
+
+9. Update Recipe Like Count
+
+```
+PATCH /recipe/like/:id
+```
+
+Parameters:
+
+```
+id
+```
+
+Request Body: 
+
+```json
+{
+  "likesCount": 1
+}
+```
+
+Response (200 OK):
+
+```json
+{
+  "acknowledged": true,
+  "modifiedCount": 1
+}
+```
+
+10. Delete Recipe
+
+```
+DELETE /recipe/:id
+```
+
+Parameters:
+
+```
+id
+```
+
+Response (200 OK):
+
+```json
+{
+  "acknowledged": true,
+  "deletedCount": 1
+}
+```
+
+11. Root Endpoint: 
+
+```
+GET /
+```
+Response (200 OK):
+
+```
+Hello World!
+```
+
+## Environment Variables
+
+Create a .env file in the root directory
+
+```js
+MONGODB_URI=your_mongodb_connection_string
+PORT=5000
+```
+
+## Installation & Setup:
+
+1. Clone the Repository: 
+
+```bash
+git clone https://github.com/muhammad-tamim/web-project-27-server-v1-monolithic-architecture
+cd web-project-27-server-v1-monolithic-architecture
+```
+
+2. Install Dependencies:
+
+```bash
+npm install
+```
+
+3. Create a .env File with: 
+
+```
+MONGODB_URI=Your MongoDB URI
+PORT= Your Port
+```
+
+4. Start the Development Server(For locally testing):
+
+```bash
+npm run dev
 ```
